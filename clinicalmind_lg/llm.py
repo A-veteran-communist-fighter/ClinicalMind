@@ -82,6 +82,7 @@ def parse_json_response(response: Any) -> dict[str, Any]:
 _llm_instance = None
 _llm_fast_instance = None
 _vision_llm_instance = None
+_embedding_client = None
 
 
 def get_llm():
@@ -118,26 +119,25 @@ def get_llm_fast():
 def get_vision_llm():
     """Return vision-capable LLM for lab report parsing.
 
-    Requires separate configuration in .env:
-      VISION_API_KEY=sk-...         (required — different from main LLM)
-      VISION_BASE_URL=https://...   (optional)
-      VISION_MODEL=gpt-4o           (optional, defaults to gpt-4o)
+    Default: Kimi (Moonshot) vision model.
+    Requires VISION_API_KEY in .env. If not set, returns None (degraded).
 
-    Returns None if vision is not configured, so callers can degrade gracefully.
+    .env overrides:
+      VISION_API_KEY=sk-...              (required)
+      VISION_BASE_URL=https://...        (default: https://api.moonshot.cn/v1)
+      VISION_MODEL=moonshot-v1-...       (default: moonshot-v1-8k-vision-preview)
     """
     global _vision_llm_instance
     if _vision_llm_instance is None:
         from langchain_openai import ChatOpenAI
 
         vision_key = os.getenv("VISION_API_KEY", "").strip()
-
-        # No vision config → silently return None (feature not available)
         if not vision_key:
             _vision_llm_instance = None
             return None
 
-        vision_model = os.getenv("VISION_MODEL", "gpt-4o").strip()
-        vision_url = os.getenv("VISION_BASE_URL", "https://api.openai.com/v1").strip()
+        vision_model = os.getenv("VISION_MODEL", "moonshot-v1-8k-vision-preview").strip()
+        vision_url = os.getenv("VISION_BASE_URL", "https://api.moonshot.cn/v1").strip()
 
         _vision_llm_instance = ChatOpenAI(
             model=vision_model,
@@ -153,3 +153,77 @@ def get_vision_llm():
 def has_vision() -> bool:
     """Check if vision model is configured (without initializing it)."""
     return bool(os.getenv("VISION_API_KEY", "").strip())
+
+
+# ── Embedding Model ─────────────────────────────────────────────────────────
+
+def get_embedding_model():
+    """Return an OpenAI-compatible embeddings client.
+
+    Default: Qwen (DashScope) text-embedding-v4.
+    Returns None if not configured, so callers can degrade gracefully.
+
+    .env overrides:
+      EMBEDDING_API_KEY=sk-...           (required)
+      EMBEDDING_BASE_URL=https://...     (default: https://dashscope.aliyuncs.com/compatible-mode/v1)
+      EMBEDDING_MODEL=text-embedding-v4  (default)
+    """
+    global _embedding_client
+    if _embedding_client is None:
+        import openai
+        emb_key = os.getenv("EMBEDDING_API_KEY", "").strip()
+        if not emb_key:
+            _embedding_client = None
+            return None
+
+        emb_model = os.getenv("EMBEDDING_MODEL", "text-embedding-v4").strip()
+        emb_url = os.getenv(
+            "EMBEDDING_BASE_URL",
+            "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        ).strip()
+
+        _embedding_client = openai.AsyncOpenAI(
+            base_url=emb_url,
+            api_key=emb_key,
+            timeout=60.0,
+            max_retries=2,
+        )
+        _embedding_client._model_name = emb_model  # stash for later
+        print(f"[ClinicalMind] Embedding: Qwen | Model: {emb_model}")
+    return _embedding_client
+
+
+def has_embedding() -> bool:
+    """Check if embedding model is configured (without initializing it)."""
+    return bool(os.getenv("EMBEDDING_API_KEY", "").strip())
+
+
+async def embed_texts(texts: list[str]) -> list[list[float]]:
+    """Embed a batch of texts into dense vectors.
+
+    Args:
+        texts: List of strings to embed.
+
+    Returns:
+        List of embedding vectors (list of floats).
+
+    Raises:
+        RuntimeError: If embedding model is not configured.
+    """
+    client = get_embedding_model()
+    if client is None:
+        raise RuntimeError(
+            "Embedding model not configured. "
+            "Set EMBEDDING_API_KEY in .env (default: Qwen via DashScope)."
+        )
+    resp = await client.embeddings.create(
+        model=client._model_name,
+        input=texts,
+    )
+    return [item.embedding for item in resp.data]
+
+
+async def embed_single(text: str) -> list[float]:
+    """Embed a single text. Convenience wrapper around embed_texts."""
+    results = await embed_texts([text])
+    return results[0]

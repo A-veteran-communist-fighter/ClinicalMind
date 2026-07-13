@@ -68,18 +68,31 @@ python console.py
 | Moonshot/Kimi | `MOONSHOT_API_KEY` | 中文能力强 |
 | 阿里百炼 | `DASHSCOPE_API_KEY` | 阿里云生态 |
 
-### 多模态化验单识别（可选）
+### 化验单识别（可选，默认 Kimi 视觉模型）
 
-如果需要上传化验单/检查报告图片，需额外配置视觉模型（独立于主 LLM）：
+上传化验单/检查报告图片，提取结构化指标辅助诊断：
 
 ```ini
 # .env 中添加
-VISION_API_KEY=sk-your-openai-key     # 视觉模型 API Key（需支持视觉的模型）
-VISION_BASE_URL=https://api.openai.com/v1
-VISION_MODEL=gpt-4o                   # 默认 gpt-4o
+VISION_API_KEY=sk-your-moonshot-key                # Kimi API Key
+VISION_BASE_URL=https://api.moonshot.cn/v1         # 默认
+VISION_MODEL=moonshot-v1-8k-vision-preview          # 默认
 ```
 
 未配置时 `lab` 命令自动降级不启用，不影响其他功能。
+
+### RAG 向量检索（可选，默认千问 Embedding）
+
+启用向量语义搜索，解决医学术语的词汇鸿沟问题：
+
+```ini
+# .env 中添加
+EMBEDDING_API_KEY=sk-your-dashscope-key            # 千问 API Key
+EMBEDDING_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1  # 默认
+EMBEDDING_MODEL=text-embedding-v4                   # 默认
+```
+
+未配置时降级为关键词检索。详细 RAG 技术介绍 → [RAG.md](./RAG.md)
 
 ---
 
@@ -145,8 +158,10 @@ START → [entry] → route_after_entry
 
 | 组件 | 技术 | 说明 |
 |------|------|------|
-| Agent 编排 | LangGraph StateGraph | 6 个节点 + 3 个条件路由 |
-| LLM 客户端 | LangChain ChatOpenAI | 兼容 5 个 Provider |
+| Agent 编排 | LangGraph StateGraph | 7 个节点 + 3 个条件路由 |
+| 主 LLM | LangChain ChatOpenAI | 兼容 5 个 Provider（默认 DeepSeek） |
+| 视觉模型 | OpenAI-compatible | 默认 Kimi，独立配置，降级可用 |
+| Embedding | OpenAI-compatible | 默认千问，独立配置，降级到关键词 |
 | 状态管理 | MemorySaver | 自动 checkpoint |
 | 人机交互 | 状态驱动 | 生成问题 → 暂停 → 回答 → 继续 |
 | 安全分诊 | 规则正则 + LLM 双层 | 毫秒级关键词 + 深度分析 |
@@ -162,7 +177,7 @@ ClinicalMind/
 ├── clinicalmind_lg/          # LangGraph 工作流
 │   ├── state.py              #   ClinicalState 定义 (23字段，含 lab_reports)
 │   ├── prompts.py            #   8 组中文 System Prompt（含化验单解析）
-│   ├── llm.py                #   多 Provider LLM + 视觉模型（独立配置，降级可用）
+│   ├── llm.py                #   主 LLM + 视觉(Kimi) + Embedding(千问)，均独立配置降级
 │   ├── nodes.py              #   7 个节点 + 化验单解析 + 3 个路由函数
 │   ├── graph.py              #   StateGraph 构建 + MemorySaver
 │   └── console.py            #   交互式控制台
@@ -171,6 +186,7 @@ ClinicalMind/
 ├── requirements-console.txt  # 依赖清单
 ├── .env.example              # 环境变量模板
 ├── LangGraph.md              # 工作流详细文档
+├── RAG.md                    # RAG 技术介绍
 ├── LICENSE                   # MIT
 └── README.md
 ```
