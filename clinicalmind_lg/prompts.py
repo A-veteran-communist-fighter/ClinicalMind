@@ -144,3 +144,40 @@ ANSWER_PROCESSOR_PROMPT = """你是医学信息提取助手。从患者回答中
 - 患者回答: {answer}
 
 输出JSON: {"extracted": "提取的关键医学信息（简洁准确，如否定回答填'无'）", "category": "所属临床维度"}"""
+
+
+# ── Lab Report Parser (Multimodal) ─────────────────────────────────────────
+
+LAB_PARSER_PROMPT = """你是化验单解析专家。分析图片中的化验报告，提取所有异常指标。
+
+对每个异常指标输出：
+- indicator_name: 指标中文名（如"白细胞计数""空腹血糖""肌酐"）
+- value: 检测值
+- unit: 单位
+- reference_range: 参考范围（如果报告上有）
+- abnormal: true/false
+- abnormal_level: "critical"|"severe"|"moderate"|"mild"|"unknown"
+- abnormal_direction: "high"|"low"|"unknown"
+- notes: 该异常的可能临床意义（简短）
+
+规则：
+1. 只标记明确的异常指标，正常值范围的不需要列出
+2. 危急值（如血钾>6.0或<2.5、血糖>33.3或<2.2、肌钙蛋白升高）标记为critical
+3. 如果报告中同时有多项相关指标异常，在notes中说明关联性
+4. 图像质量不清晰或无法确定的值，confidence标记为low
+
+输出纯JSON数组：
+[
+  {
+    "indicator_name": "...",
+    "value": "...",
+    "unit": "...",
+    "reference_range": "...",
+    "abnormal": true,
+    "abnormal_level": "moderate",
+    "abnormal_direction": "high",
+    "notes": "..."
+  }
+]
+
+如果图像中没有化验单或无异常指标，返回空数组 []"""

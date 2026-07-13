@@ -1,16 +1,14 @@
 """ClinicalMind LangGraph Nodes.
 
-Uses LangGraph's `interrupt()` for human-in-the-loop (asking questions, collecting answers).
-This replaces the custom orchestrator, interview engine, and all agent classes.
+Uses state-driven pauses instead of interrupt() for LangGraph >= 1.x compatibility.
+Replaces the custom orchestrator, interview engine, and all agent classes.
 """
 
 import logging
 from typing import Any
 
 from langchain_core.messages import HumanMessage, SystemMessage
-from langgraph.types import interrupt
-
-from .llm import llm, llm_fast, extract_json
+from .llm import get_llm, get_llm_fast, extract_json
 from .prompts import (
     MASTER_AGENT_PROMPT,
     SAFETY_CHECK_PROMPT,
@@ -19,6 +17,7 @@ from .prompts import (
     PLANNING_SYSTEM_PROMPT,
     RESEARCH_SYSTEM_PROMPT,
     ANSWER_PROCESSOR_PROMPT,
+    LAB_PARSER_PROMPT,
 )
 from .state import ClinicalState
 
@@ -29,26 +28,67 @@ logger = logging.getLogger(__name__)
 # Emergency Keyword Rules (from original safety_triage.py)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-_CHEST = ("胸痛", "胸闷", "心前区痛")
-_DYSPNEA = ("呼吸困难", "喘不上气", "气短", "憋气")
-_INSTABILITY = ("大汗", "冷汗", "晕厥", "意识模糊")
-_NEURO = ("意识丧失", "昏迷", "抽搐", "口角歪斜", "一侧肢体无力")
-_BLEEDING = ("大量出血", "呕血", "黑便", "咯血", "休克")
-_ALLERGY = ("喉头水肿", "严重过敏", "喘鸣", "过敏性休克")
+import re as _re
+
+# Exact keywords for classic presentations
+_CHEST_EXACT = ("胸痛", "胸闷", "心前区痛", "心绞痛")
+_DYSPNEA = ("呼吸困难", "喘不上气", "气短", "憋气", "喘不过气")
+_INSTABILITY = ("大汗", "冷汗", "晕厥", "意识模糊", "快晕倒", "眼前发黑", "濒死感")
+_NEURO = ("意识丧失", "昏迷", "抽搐", "口角歪斜", "一侧肢体无力", "说话不清",
+          "突然看不见", "突然听不见", "走路不稳")
+_BLEEDING = ("大量出血", "呕血", "黑便", "咯血", "休克", "便血不止",
+             "血止不住", "吐血")
+_ALLERGY = ("喉头水肿", "严重过敏", "喘鸣", "过敏性休克", "嘴唇肿",
+            "全身风团", "全身红疹")
+
+# Loose patterns: "胸" near "痛" — catches "胸口痛", "胸部突然很痛", etc.
+_CHEST_NEAR_PAIN = _re.compile(r'胸.{0,3}痛|胸.{0,3}闷')
+# "突然" near "痛" — catches "突然胸口很痛", "背上突然剧烈痛"
+_SUDDEN_PAIN = _re.compile(r'突然.{0,5}痛|突然.{0,5}疼')
+# Pregnancy-related
+_PREGNANCY = _re.compile(r'怀孕|孕|妊娠')
 
 
 def _check_red_flags(text: str) -> list[str]:
-    """Fast keyword-based emergency screening (no LLM call needed)."""
-    flags = []
+    """Fast emergency screening: exact keywords + loose patterns + urgency hints."""
+    flags: list[str] = []
     t = text.lower()
-    if any(w in t for w in _CHEST) and (any(w in t for w in _DYSPNEA) or any(w in t for w in _INSTABILITY)):
+
+    # ── 1. Exact multi-keyword combos (highest specificity) ──
+    has_chest = any(w in t for w in _CHEST_EXACT)
+    has_dyspnea = any(w in t for w in _DYSPNEA)
+    has_instability = any(w in t for w in _INSTABILITY)
+
+    if has_chest and (has_dyspnea or has_instability):
         flags.append("胸痛/胸闷合并呼吸困难/大汗/晕厥 - 需排除急性冠脉综合征")
+
+    # ── 2. Loose chest pain patterns ──
+    # "胸口痛" alone is concerning enough if accompanied by urgency words
+    if _CHEST_NEAR_PAIN.search(t) or _SUDDEN_PAIN.search(t):
+        if has_dyspnea or has_instability:
+            flags.append("胸痛/胸闷合并呼吸困难/大汗/晕厥 - 需排除急性冠脉综合征")
+        elif not flags:  # don't duplicate
+            # Chest pain + sudden onset → urgent but not necessarily emergency
+            urgency = any(w in t for w in ("突然", "剧烈", "最严重", "难以忍受", "撕裂"))
+            if urgency:
+                flags.append("突发胸痛/剧烈胸痛 - 建议立即急诊评估排除ACS/夹层")
+
+    # ── 3. Neurologic ──
     if any(w in t for w in _NEURO):
         flags.append("神经系统危险信号 - 疑似卒中或严重神经系统疾病")
+
+    # ── 4. Bleeding / shock ──
     if any(w in t for w in _BLEEDING):
         flags.append("严重出血或休克风险")
+
+    # ── 5. Severe allergy ──
     if any(w in t for w in _ALLERGY):
         flags.append("严重过敏或气道受累")
+
+    # ── 6. Pregnancy risk ──
+    if _PREGNANCY.search(t) and any(w in t for w in ("腹痛", "阴道出血", "流血", "头痛剧烈", "看不清", "水肿严重", "头晕")):
+        flags.append("妊娠合并危险信号 - 建议立即妇产科急诊评估")
+
     return flags
 
 
@@ -71,7 +111,7 @@ async def entry_node(state: ClinicalState) -> dict[str, Any]:
     if not is_emergency and len(user_input) > 10:
         try:
             collected = state.get("collected_info", {})
-            resp = await llm_fast.ainvoke([
+            resp = await get_llm_fast().ainvoke([
                 SystemMessage(content=SAFETY_CHECK_PROMPT),
                 HumanMessage(content=f"主诉: {user_input}\n已收集信息: {collected}"),
             ])
@@ -92,7 +132,7 @@ async def entry_node(state: ClinicalState) -> dict[str, Any]:
         }
 
     try:
-        resp = await llm_fast.ainvoke([
+        resp = await get_llm_fast().ainvoke([
             SystemMessage(content=MASTER_AGENT_PROMPT),
             HumanMessage(content=user_input),
         ])
@@ -117,186 +157,212 @@ async def entry_node(state: ClinicalState) -> dict[str, Any]:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Node 2: Interview Loop (generates questions + processes answers via interrupt)
+# Node 2a: Interview Generate — create questions, then pause for human
 # ═══════════════════════════════════════════════════════════════════════════════
 
-async def interview_loop_node(state: ClinicalState) -> dict[str, Any]:
-    """The interview loop: generate questions → interrupt for human answer → repeat.
+async def interview_generate_node(state: ClinicalState) -> dict[str, Any]:
+    """Generate 1-2 interview questions and return. Does NOT call interrupt().
 
-    Uses LangGraph's `interrupt()` to pause execution and wait for user response.
-    Each iteration: generate 1-2 questions, present them, process answers, then
-    decide whether to continue or synthesize.
-
-    This single node replaces: Track1Agent, Track2Agent, InterviewOrchestrator,
-    DynamicInterviewEngine, and process_answer.
+    The graph ends here; console reads questions from state, collects answers,
+    then resumes by calling the graph with human_response filled in.
     """
     chief = state.get("chief_complaint", "")
     collected = dict(state.get("collected_info", {}))
-    raw_answers = dict(state.get("raw_answers", {}))
     asked = list(state.get("asked_questions", []))
     diffs = state.get("differential_diagnoses", [])
-    flags = list(state.get("red_flags", []))
+    round_num = state.get("interview_round", 0) + 1
 
-    MAX_ROUNDS = 12
+    # Build prompt
+    prompt_parts = [f"## 患者主诉\n{chief}"]
+    if collected:
+        prompt_parts.append("\n## 已收集信息")
+        for k, v in list(collected.items())[-15:]:
+            if v and v not in ("无", "没有", "不清楚", "跳过"):
+                prompt_parts.append(f"  {k}: {str(v)[:150]}")
+    # Lab reports — inject into prompt so LLM considers them
+    lab_reports = state.get("lab_reports", [])
+    if lab_reports:
+        prompt_parts.append("\n## 化验检查结果")
+        for rpt in lab_reports[-3:]:
+            for ind in rpt.get("indicators", []):
+                if ind.get("abnormal"):
+                    lvl = ind.get("abnormal_level", "unknown")
+                    lvl_mark = {"critical": "!!", "severe": "!", "moderate": "⚠"}.get(lvl, "")
+                    prompt_parts.append(
+                        f"  {lvl_mark} {ind.get('indicator_name','?')}: "
+                        f"{ind.get('value','?')}{ind.get('unit','')} "
+                        f"(参考:{ind.get('reference_range','N/A')}) "
+                        f"[{ind.get('abnormal_direction','?')}]"
+                    )
+    if diffs:
+        prompt_parts.append("\n## 当前鉴别诊断")
+        for d in diffs[-5:]:
+            icon = {"high": "V", "medium": "?", "low": "X"}.get(d.get("confidence", ""), "?")
+            prompt_parts.append(f"  [{icon}] {d.get('diagnosis','?')}: {d.get('reason','')[:80]}")
+    prompt_parts.append(f"\n## 状态\n第{round_num}轮，已问{len(asked)}个问题")
+    if asked:
+        prompt_parts.append(f"最近已问: {', '.join(asked[-8:])}")
+    prompt_parts.append("\n请决定: ask(继续1-2个问题) 或 synthesize(信息充足)")
 
-    for round_num in range(MAX_ROUNDS):
-        # --- Generate questions ---
-        prompt_parts = [f"## 患者主诉\n{chief}"]
+    try:
+        resp = await get_llm().ainvoke([
+            SystemMessage(content=INTERVIEW_SYSTEM_PROMPT),
+            HumanMessage(content="\n".join(prompt_parts)),
+        ])
+        data = extract_json(resp.content if hasattr(resp, "content") else str(resp))
+    except Exception as e:
+        logger.warning(f"Interview LLM failed (round {round_num}): {e}")
+        data = {"action": "synthesize"}
 
-        if collected:
-            prompt_parts.append("\n## 已收集信息")
-            for k, v in list(collected.items())[-15:]:
-                if v and v not in ("无", "没有", "不清楚", "跳过"):
-                    prompt_parts.append(f"  {k}: {str(v)[:150]}")
+    action = data.get("action", "ask")
 
-        if diffs:
-            prompt_parts.append("\n## 当前鉴别诊断")
-            for d in diffs[-5:]:
-                icon = {"high": "V", "medium": "?", "low": "X"}.get(d.get("confidence", ""), "?")
-                prompt_parts.append(f"  [{icon}] {d.get('diagnosis','?')}: {d.get('reason','')[:80]}")
+    # Merge differential diagnoses
+    new_diffs = data.get("differential_diagnoses", [])
+    existing_names = {d.get("diagnosis", "") for d in diffs}
+    for nd in new_diffs:
+        if nd.get("diagnosis", "") and nd["diagnosis"] not in existing_names:
+            diffs.append(nd)
+            existing_names.add(nd["diagnosis"])
 
-        prompt_parts.append(f"\n## 状态\n第{round_num + 1}轮，已问{len(asked)}个问题")
-        if asked:
-            prompt_parts.append(f"最近已问: {', '.join(asked[-8:])}")
-        prompt_parts.append("\n请决定: ask(继续1-2个问题) 或 synthesize(信息充足)")
+    # ── Synthesis check ──
+    meaningful = sum(1 for v in collected.values() if v and v not in ("无", "没有", "跳过"))
+    if action == "synthesize" and (meaningful >= 3 or round_num >= 3):
+        return {
+            "collected_info": collected,
+            "differential_diagnoses": diffs,
+            "interview_round": round_num,
+            "phase": "diagnosing",
+            "action": "synthesize",
+        }
 
-        try:
-            resp = await llm.ainvoke([
-                SystemMessage(content=INTERVIEW_SYSTEM_PROMPT),
-                HumanMessage(content="\n".join(prompt_parts)),
-            ])
-            data = extract_json(resp.content if hasattr(resp, "content") else str(resp))
-        except Exception as e:
-            logger.warning(f"Interview LLM failed (round {round_num}): {e}")
-            continue
+    questions = data.get("questions", data.get("basic_module", []))
+    if not questions:
+        if meaningful >= 5:
+            return {
+                "collected_info": collected,
+                "differential_diagnoses": diffs,
+                "interview_round": round_num,
+                "phase": "diagnosing",
+                "action": "synthesize",
+            }
+        return {
+            "interview_round": round_num,
+            "differential_diagnoses": diffs,
+            "current_questions": [],
+            "phase": "awaiting_human",
+        }
 
-        action = data.get("action", "ask")
-
-        # Update differential diagnoses
-        new_diffs = data.get("differential_diagnoses", [])
-        existing_names = {d.get("diagnosis", "") for d in diffs}
-        for nd in new_diffs:
-            if nd.get("diagnosis", "") and nd["diagnosis"] not in existing_names:
-                diffs.append(nd)
-                existing_names.add(nd["diagnosis"])
-
-        # --- Synthesis check ---
-        if action == "synthesize":
-            meaningful_count = sum(1 for v in collected.values() if v and v not in ("无", "没有", "跳过"))
-            if meaningful_count >= 3 or round_num >= 3:
-                logger.info(f"Interview complete: {meaningful_count} meaningful items in {round_num + 1} rounds")
-                return {
-                    "collected_info": collected,
-                    "raw_answers": raw_answers,
-                    "asked_questions": asked,
-                    "differential_diagnoses": diffs,
-                    "red_flags": flags,
-                    "phase": "diagnosing",
-                }
-
-        questions = data.get("questions", data.get("basic_module", []))
-        if not questions:
-            meaningful_count = sum(1 for v in collected.values() if v and v not in ("无", "没有", "跳过"))
-            if meaningful_count >= 5:
-                return {
-                    "collected_info": collected,
-                    "raw_answers": raw_answers,
-                    "asked_questions": asked,
-                    "differential_diagnoses": diffs,
-                    "red_flags": flags,
-                    "phase": "diagnosing",
-                }
-            continue
-
-        # Normalize questions
-        normalized = []
-        for q in questions:
-            normalized.append({
-                "id": q.get("id", q.get("question_id", f"q_{round_num}")),
-                "text": q.get("text", q.get("question", "")),
-                "type": q.get("type", "text"),
-                "options": q.get("options", []),
-                "hint": q.get("hint", ""),
-                "phase": q.get("phase", ""),
-            })
-
-        # --- Human-in-the-loop: interrupt and wait for answers ---
-        # LangGraph pauses here. Console shows questions, collects answers,
-        # then resumes with Command(resume=answer_string).
-        human_response: str = interrupt({
-            "type": "ask_questions",
-            "questions": normalized,
-            "differential_diagnoses": diffs[-5:],
-            "red_flags": flags,
-            "round": round_num + 1,
-            "collected_count": len([v for v in collected.values() if v and v not in ("无", "没有", "跳过")]),
+    # Normalize
+    normalized = []
+    for q in questions:
+        normalized.append({
+            "id": q.get("id", q.get("question_id", f"q_{round_num}")),
+            "text": q.get("text", q.get("question", "")),
+            "type": q.get("type", "text"),
+            "options": q.get("options", []),
+            "hint": q.get("hint", ""),
+            "phase": q.get("phase", ""),
         })
 
-        if not human_response:
-            continue
+    return {
+        "collected_info": collected,
+        "differential_diagnoses": diffs,
+        "current_questions": normalized,
+        "interview_round": round_num,
+        "phase": "awaiting_human",
+        "action": "ask",
+    }
 
-        # --- Process answers ---
-        answers = human_response.split("||")
-        if len(answers) != len(normalized):
-            answers = [human_response] + [""] * (len(normalized) - 1)
 
-        for i, q in enumerate(normalized):
-            qid = q["id"]
-            q_text = q["text"]
-            ans = answers[i].strip() if i < len(answers) else ""
+# ═══════════════════════════════════════════════════════════════════════════════
+# Node 2b: Interview Process — extract answers, decide next step
+# ═══════════════════════════════════════════════════════════════════════════════
 
-            if not ans or ans.lower() in ("跳过", "skip", ""):
-                raw_answers[qid] = "跳过"
-                collected[qid] = "跳过"
-                if qid not in asked:
-                    asked.append(qid)
-                continue
+async def interview_process_node(state: ClinicalState) -> dict[str, Any]:
+    """Process user answers to the current questions.
 
-            # Map numeric choices to text
-            opts = q.get("options", [])
-            if opts and q.get("type") in ("choice", "multi_choice"):
-                try:
-                    indices = [int(x.strip()) - 1 for x in ans.split(",") if x.strip().isdigit()]
-                    mapped = ", ".join(opts[j] for j in indices if 0 <= j < len(opts))
-                    if mapped:
-                        ans = mapped
-                except (ValueError, IndexError):
-                    pass
+    Called after the console fills in human_response. Decides whether to
+    generate more questions or transition to diagnosis.
+    """
+    human_response = state.get("human_response", "")
+    current_questions = state.get("current_questions", [])
+    collected = dict(state.get("collected_info", {}))
+    raw_answers = dict(state.get("raw_answers", {}))
+    asked = list(state.get("asked_questions", []))
+    round_num = state.get("interview_round", 0)
 
-            raw_answers[qid] = ans
+    if not human_response or not current_questions:
+        # No answer provided → go back to generate more questions
+        return {"phase": "interviewing", "human_response": "", "current_questions": []}
+
+    # Parse answers
+    answers = human_response.split("||")
+    if len(answers) != len(current_questions):
+        answers = [human_response] + [""] * (len(current_questions) - 1)
+
+    for i, q in enumerate(current_questions):
+        qid = q["id"]
+        q_text = q["text"]
+        ans = answers[i].strip() if i < len(answers) else ""
+
+        if not ans or ans.lower() in ("跳过", "skip", ""):
+            raw_answers[qid] = "跳过"
+            collected[qid] = "跳过"
             if qid not in asked:
                 asked.append(qid)
+            continue
 
-            # LLM extraction for rich answers
-            if ans != "跳过" and len(ans) > 3:
-                try:
-                    extract_prompt = ANSWER_PROCESSOR_PROMPT.format(
-                        question_id=qid, question_text=q_text, answer=ans
-                    )
-                    resp2 = await llm_fast.ainvoke([
-                        SystemMessage(content="你是医学信息提取助手。只返回JSON。"),
-                        HumanMessage(content=extract_prompt),
-                    ])
-                    edata = extract_json(resp2.content if hasattr(resp2, "content") else str(resp2))
-                    collected[qid] = edata.get("extracted", ans)
-                except Exception:
-                    collected[qid] = ans
-            else:
+        # Map numeric choices to text
+        opts = q.get("options", [])
+        if opts and q.get("type") in ("choice", "multi_choice"):
+            try:
+                indices = [int(x.strip()) - 1 for x in ans.split(",") if x.strip().isdigit()]
+                mapped = ", ".join(opts[j] for j in indices if 0 <= j < len(opts))
+                if mapped:
+                    ans = mapped
+            except (ValueError, IndexError):
+                pass
+
+        raw_answers[qid] = ans
+        if qid not in asked:
+            asked.append(qid)
+
+        # LLM extraction for rich answers
+        if ans != "跳过" and len(ans) > 3:
+            try:
+                extract_prompt = ANSWER_PROCESSOR_PROMPT.format(
+                    question_id=qid, question_text=q_text, answer=ans)
+                resp = await get_llm_fast().ainvoke([
+                    SystemMessage(content="你是医学信息提取助手。只返回JSON。"),
+                    HumanMessage(content=extract_prompt),
+                ])
+                edata = extract_json(resp.content if hasattr(resp, "content") else str(resp))
+                collected[qid] = edata.get("extracted", ans)
+            except Exception:
                 collected[qid] = ans
+        else:
+            collected[qid] = ans
 
-        # --- Update state for next iteration ---
-        # (state is updated via return dict, but we need to maintain local state
-        #  for the in-loop diff tracking since LangGraph merges at function return)
-        meaningful = sum(1 for v in collected.values() if v and v not in ("无", "没有", "跳过"))
+    meaningful_count = sum(1 for v in collected.values() if v and v not in ("无", "没有", "跳过"))
+    max_rounds = state.get("interview_round", 0) >= 12
 
-    # Max rounds exhausted
+    if max_rounds or meaningful_count >= 10:
+        return {
+            "collected_info": collected,
+            "raw_answers": raw_answers,
+            "asked_questions": asked,
+            "current_questions": [],
+            "human_response": "",
+            "phase": "diagnosing",
+        }
+
     return {
         "collected_info": collected,
         "raw_answers": raw_answers,
         "asked_questions": asked,
-        "differential_diagnoses": diffs,
-        "red_flags": flags,
-        "phase": "diagnosing",
+        "current_questions": [],
+        "human_response": "",
+        "phase": "interviewing",
     }
 
 
@@ -338,6 +404,24 @@ async def diagnose_node(state: ClinicalState) -> dict[str, Any]:
         if v and v not in ("无", "没有", "不清楚", "跳过"):
             lines.append(f"  [{k}]: {str(v)[:200]}")
 
+    # Lab reports
+    lab_reports = state.get("lab_reports", [])
+    if lab_reports:
+        lines.append("\n化验检查异常指标:")
+        for rpt in lab_reports[-5:]:
+            for ind in rpt.get("indicators", []):
+                if ind.get("abnormal"):
+                    lvl = ind.get("abnormal_level", "unknown")
+                    lvl_mark = {"critical": "!!", "severe": "!", "moderate": "⚠"}.get(lvl, "")
+                    lines.append(
+                        f"  {lvl_mark} {ind.get('indicator_name','?')}: "
+                        f"{ind.get('value','?')}{ind.get('unit','')} "
+                        f"(参考:{ind.get('reference_range','N/A')})"
+                    )
+                    if ind.get("notes"):
+                        lines.append(f"    备注: {ind['notes'][:150]}")
+        lines.append("")
+
     lines.append("")
     if diffs:
         lines.append("鉴别诊断演变:")
@@ -358,7 +442,7 @@ async def diagnose_node(state: ClinicalState) -> dict[str, Any]:
     summary = "\n".join(lines)
 
     try:
-        resp = await llm.ainvoke([
+        resp = await get_llm().ainvoke([
             SystemMessage(content=DIAGNOSIS_SYSTEM_PROMPT),
             HumanMessage(content=f"## 患者综合信息\n{summary}\n\n请基于以上全部信息生成结构化诊断报告。只输出JSON。"),
         ])
@@ -390,7 +474,7 @@ async def treatment_plan_node(state: ClinicalState) -> dict[str, Any]:
         return {"phase": "completed"}
 
     try:
-        resp = await llm.ainvoke([
+        resp = await get_llm().ainvoke([
             SystemMessage(content=PLANNING_SYSTEM_PROMPT),
             HumanMessage(content=f"诊断:\n{diagnosis}\n\n请生成治疗计划。只输出JSON。"),
         ])
@@ -410,7 +494,7 @@ async def research_node(state: ClinicalState) -> dict[str, Any]:
     """Answer a medical knowledge question."""
     query = state.get("current_user_input", state.get("chief_complaint", ""))
     try:
-        resp = await llm.ainvoke([
+        resp = await get_llm().ainvoke([
             SystemMessage(content=RESEARCH_SYSTEM_PROMPT),
             HumanMessage(content=f"问题: {query}\n请给出循证回答，引用权威来源。"),
         ])
@@ -429,7 +513,7 @@ async def standalone_planning_node(state: ClinicalState) -> dict[str, Any]:
     """Generate treatment plan from user text directly (no prior diagnosis)."""
     query = state.get("current_user_input", state.get("chief_complaint", ""))
     try:
-        resp = await llm.ainvoke([
+        resp = await get_llm().ainvoke([
             SystemMessage(content=PLANNING_SYSTEM_PROMPT),
             HumanMessage(content=f"请基于以下信息生成治疗计划:\n{query}\n\n只输出JSON。"),
         ])
@@ -447,13 +531,96 @@ async def standalone_planning_node(state: ClinicalState) -> dict[str, Any]:
 def route_after_entry(state: ClinicalState) -> str:
     """Route: where does the flow go after entry?"""
     if state.get("is_emergency"):
-        return "diagnose"  # skip interview for emergencies
+        return "diagnose"
+    # Resume case: user just answered questions, process them
+    if state.get("phase") == "awaiting_human" and state.get("human_response"):
+        return "interview_process"
     route = state.get("route", "diagnosis")
     return {
-        "diagnosis": "interview_loop",
+        "diagnosis": "interview_generate",
         "research": "research",
         "planning": "standalone_planning",
-    }.get(route, "interview_loop")
+    }.get(route, "interview_generate")
+
+
+def route_after_process(state: ClinicalState) -> str:
+    """Route: after processing answers, generate more or diagnose?"""
+    phase = state.get("phase", "interviewing")
+    if phase == "diagnosing":
+        return "diagnose"
+    return "interview_generate"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Lab Report Parser (standalone, called from console — not a graph node)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+async def parse_lab_report_image(image_path: str) -> dict[str, Any]:
+    """Parse a lab report image using multimodal LLM.
+
+    Args:
+        image_path: Path to the lab report image file (PNG/JPEG/WEBP).
+
+    Returns:
+        Dict with indicators list and metadata, or error info.
+    """
+    import base64
+    from pathlib import Path
+
+    path = Path(image_path)
+    if not path.exists():
+        return {"error": f"文件不存在: {image_path}"}
+    if path.stat().st_size > 20 * 1024 * 1024:
+        return {"error": "图片文件过大 (>20MB)"}
+
+    # Read and encode
+    with open(path, "rb") as f:
+        image_bytes = f.read()
+
+    # Detect MIME
+    if image_bytes[:4] == b"\x89PNG":
+        mime = "png"
+    elif image_bytes[:2] == b"\xff\xd8":
+        mime = "jpeg"
+    elif image_bytes[:8:4] == b"WEBP" and image_bytes[:4] in (b"RIFF",):
+        mime = "webp"
+    elif image_bytes[:6] in (b"GIF87a", b"GIF89a"):
+        mime = "gif"
+    else:
+        mime = "jpeg"  # fallback
+
+    image_b64 = base64.b64encode(image_bytes).decode()
+    image_url = f"data:image/{mime};base64,{image_b64}"
+
+    # Call vision LLM
+    try:
+        from .llm import get_vision_llm
+        vision = get_vision_llm()
+        if vision is None:
+            return {"error": "视觉模型未配置。请在 .env 中设置 VISION_API_KEY、VISION_MODEL、VISION_BASE_URL。"}
+        response = await vision.ainvoke([
+            SystemMessage(content=LAB_PARSER_PROMPT),
+            HumanMessage(content=[
+                {"type": "text", "text": "请分析这张化验单/检查报告，提取所有异常指标。"},
+                {"type": "image_url", "image_url": {"url": image_url}},
+            ]),
+        ])
+        raw = response.content if hasattr(response, "content") else str(response)
+        indicators = extract_json(raw)
+        if isinstance(indicators, dict):
+            indicators = [indicators] if indicators.get("indicator_name") else []
+        if not isinstance(indicators, list):
+            indicators = []
+    except Exception as e:
+        return {"error": f"视觉模型调用失败: {type(e).__name__}: {str(e)[:200]}"}
+
+    return {
+        "indicators": indicators,
+        "filename": path.name,
+        "mime_type": mime,
+        "parsed_count": len(indicators),
+        "abnormal_count": sum(1 for i in indicators if i.get("abnormal")),
+    }
 
 
 def route_after_diagnosis(state: ClinicalState) -> str:

@@ -1,0 +1,2 @@
+﻿eval_name,count,pass_rate,average_score,error_count,warning_count,MRR,Precision@5,Recall@5,citation_hit_rate,evidence_support_rate,hallucinated_citation_rate,nDCG@5,trusted_source_ratio
+rag,1,1.0,0.9279999999999999,0,0,1.0,0.4,1.0,1.0,1.0,0.0,1.0,1.0

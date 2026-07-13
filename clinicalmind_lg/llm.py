@@ -77,51 +77,79 @@ def parse_json_response(response: Any) -> dict[str, Any]:
     return extract_json(content)
 
 
-# ── Lazy LLM proxy ─────────────────────────────────────────────────────────
+# ── Lazy LLM (simple getter functions — no proxy, no __getattr__) ──────────
 
-class _LazyLLM:
-    """Proxy that creates the real ChatOpenAI on first method call.
+_llm_instance = None
+_llm_fast_instance = None
+_vision_llm_instance = None
 
-    Importing this module never fails — only the first actual LLM
-    API call triggers config validation and client creation.
+
+def get_llm():
+    """Return main LLM (temperature=0.3, 4096 tokens). Creates on first call."""
+    global _llm_instance
+    if _llm_instance is None:
+        from langchain_openai import ChatOpenAI
+        cfg = _resolve_config()
+        _llm_instance = ChatOpenAI(
+            model=MODEL_NAME, api_key=cfg["api_key"],
+            base_url=cfg["base_url"] or None,
+            temperature=0.3, max_tokens=4096,
+            timeout=120.0, max_retries=2,
+        )
+        print(f"[ClinicalMind] LLM: {cfg['provider']} | Model: {MODEL_NAME}")
+    return _llm_instance
+
+
+def get_llm_fast():
+    """Return fast LLM (temperature=0.1, 512 tokens). Creates on first call."""
+    global _llm_fast_instance
+    if _llm_fast_instance is None:
+        from langchain_openai import ChatOpenAI
+        cfg = _resolve_config()
+        _llm_fast_instance = ChatOpenAI(
+            model=MODEL_NAME, api_key=cfg["api_key"],
+            base_url=cfg["base_url"] or None,
+            temperature=0.1, max_tokens=512,
+            timeout=60.0, max_retries=2,
+        )
+    return _llm_fast_instance
+
+
+def get_vision_llm():
+    """Return vision-capable LLM for lab report parsing.
+
+    Requires separate configuration in .env:
+      VISION_API_KEY=sk-...         (required — different from main LLM)
+      VISION_BASE_URL=https://...   (optional)
+      VISION_MODEL=gpt-4o           (optional, defaults to gpt-4o)
+
+    Returns None if vision is not configured, so callers can degrade gracefully.
     """
+    global _vision_llm_instance
+    if _vision_llm_instance is None:
+        from langchain_openai import ChatOpenAI
 
-    def __init__(self, fast: bool = False):
-        self._fast = fast
-        self._instance = None
-        self._initialized = False
+        vision_key = os.getenv("VISION_API_KEY", "").strip()
 
-    def _get(self):
-        if not self._initialized:
-            from langchain_openai import ChatOpenAI
-            cfg = _resolve_config()
-            if self._fast:
-                self._instance = ChatOpenAI(
-                    model=MODEL_NAME, api_key=cfg["api_key"],
-                    base_url=cfg["base_url"] or None,
-                    temperature=0.1, max_tokens=512,
-                    timeout=60.0, max_retries=2,
-                )
-            else:
-                self._instance = ChatOpenAI(
-                    model=MODEL_NAME, api_key=cfg["api_key"],
-                    base_url=cfg["base_url"] or None,
-                    temperature=0.3, max_tokens=4096,
-                    timeout=120.0, max_retries=2,
-                )
-                print(f"[ClinicalMind] LLM: {cfg['provider']} | Model: {MODEL_NAME}")
-            self._initialized = True
-        return self._instance
+        # No vision config → silently return None (feature not available)
+        if not vision_key:
+            _vision_llm_instance = None
+            return None
 
-    def __getattr__(self, name: str):
-        return getattr(self._get(), name)
+        vision_model = os.getenv("VISION_MODEL", "gpt-4o").strip()
+        vision_url = os.getenv("VISION_BASE_URL", "https://api.openai.com/v1").strip()
 
-    def __repr__(self):
-        if self._initialized:
-            return repr(self._instance)
-        return f"<LazyLLM(fast={self._fast}, pending)>"
+        _vision_llm_instance = ChatOpenAI(
+            model=vision_model,
+            api_key=vision_key,
+            base_url=vision_url or None,
+            temperature=0.1, max_tokens=2048,
+            timeout=120.0, max_retries=2,
+        )
+        print(f"[ClinicalMind] Vision LLM: {vision_model}")
+    return _vision_llm_instance
 
 
-# Public lazy instances
-llm = _LazyLLM(fast=False)
-llm_fast = _LazyLLM(fast=True)
+def has_vision() -> bool:
+    """Check if vision model is configured (without initializing it)."""
+    return bool(os.getenv("VISION_API_KEY", "").strip())

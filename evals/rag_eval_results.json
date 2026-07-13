@@ -1,0 +1,300 @@
+{
+  "summary": {
+    "avg_faithfulness": 1.0,
+    "avg_answer_relevance": 0.8733333333333333,
+    "avg_context_relevance": 0.8666666666666667,
+    "num_cases": 30
+  },
+  "by_category": {
+    "well_covered": {
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8833333333333333,
+      "context_relevance": 0.8916666666666667,
+      "count": 24
+    },
+    "multi_context": {
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8666666666666667,
+      "context_relevance": 0.6666666666666666,
+      "count": 3
+    },
+    "emergency": {
+      "faithfulness": 1.0,
+      "answer_relevance": 0.7999999999999999,
+      "context_relevance": 0.8666666666666667,
+      "count": 3
+    }
+  },
+  "details": [
+    {
+      "id": 1,
+      "query": "紧张型头痛有什么特征？怎么治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，紧张型头痛的特征为双侧、压迫性或紧箍感头痛，强度轻至中度，不因日常活动而加重。治疗包括非处方止痛药（对乙酰氨基酚、布洛芬）、放松训练、改善睡眠和压力管理。"
+    },
+    {
+      "id": 2,
+      "query": "偏头痛和紧张型头痛怎么区分？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，偏头痛与紧张型头痛的主要区别在于：偏头痛特征为**单侧搏动性中重度头痛**，常伴恶心、呕吐、畏光、畏声，发作前可有视觉先兆；而紧张型头痛特征为**双侧、压迫性或紧箍感头痛**，强度轻至中度，不因日常活动而加重。"
+    },
+    {
+      "id": 3,
+      "query": "高血压怎么诊断？诊断标准是什么？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，高血压的诊断标准如下：\n\n- **诊室血压**：在未使用降压药的情况下，非同日3次测量，收缩压≥140mmHg和/或舒张压≥90mmHg。\n- **家庭自测血压**：标准为≥135/85mmHg。\n- **动态血压**：24小"
+    },
+    {
+      "id": 4,
+      "query": "2型糖尿病的诊断标准有哪些？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，2型糖尿病的诊断标准包括以下任一情况：空腹血糖≥7.0mmol/L，或口服葡萄糖耐量试验（OGTT）2小时血糖≥11.1mmol/L，或糖化血红蛋白（HbA1c）≥6.5%，或存在典型症状（多饮、多尿、多食、体重下降）且随机血"
+    },
+    {
+      "id": 5,
+      "query": "社区获得性肺炎有什么症状？怎么治？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，社区获得性肺炎的症状包括：发热、咳嗽、咳痰、胸痛、呼吸困难。治疗方面，采用经验性抗生素治疗，重症患者需住院并静脉用药。"
+    },
+    {
+      "id": 6,
+      "query": "上尿路感染和下尿路感染怎么区别？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 1.0,
+      "answer_preview": "上尿路感染（肾盂肾炎）与下尿路感染（膀胱炎）的主要区别在于临床表现：下尿路感染以尿频、尿急、尿痛、耻骨上不适为主，一般无发热；上尿路感染则表现为发热、寒战、腰痛、恶心呕吐，可伴有膀胱炎症状。诊断上，两者均需尿常规和尿培养（清洁中段尿≥10⁵"
+    },
+    {
+      "id": 7,
+      "query": "失眠的非药物治疗有哪些？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，失眠的非药物治疗首选失眠认知行为治疗（CBT-I），具体包括：刺激控制、睡眠限制、放松训练、睡眠卫生教育、认知重构。该方法疗效持久且无药物副作用。"
+    },
+    {
+      "id": 8,
+      "query": "焦虑障碍的一线治疗是什么？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，焦虑障碍（广泛性焦虑障碍）的一线治疗是：认知行为治疗（CBT）联合SSRI类药物（舍曲林、帕罗西汀、艾司西酞普兰）。"
+    },
+    {
+      "id": 9,
+      "query": "慢性胃炎怎么确诊？Hp阳性怎么办？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "慢性胃炎的确诊金标准是胃镜检查加活检，包括幽门螺杆菌（Hp）检测和病理检查。若Hp阳性，应采用四联疗法治疗14天，即质子泵抑制剂（PPI）联合铋剂及两种抗生素。"
+    },
+    {
+      "id": 10,
+      "query": "COPD的GOLD分级和稳定期治疗是什么？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，COPD的GOLD分级共4级：1级（FEV1≥80%）、2级、3级、4级（FEV1<30%）。稳定期治疗包括：戒烟，以及吸入LAMA/LABA，必要时联合ICS（即LAMA/LABA±ICS）。"
+    },
+    {
+      "id": 11,
+      "query": "失眠患者可以长期吃安眠药吗？",
+      "category": "multi_context",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.6,
+      "answer_preview": "根据参考知识，失眠患者**不推荐长期单用药物治疗**。药物仅用于短期治疗，长期使用安眠药（如苯二氮䓬类）存在依赖风险，且疗效持久的首选非药物治疗是失眠认知行为治疗（CBT-I），该疗法无药物副作用。"
+    },
+    {
+      "id": 12,
+      "query": "头痛伴有恶心是什么原因？",
+      "category": "multi_context",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考信息，头痛伴有恶心常见于偏头痛。偏头痛的特征为单侧搏动性中重度头痛，常伴恶心、呕吐、畏光、畏声。"
+    },
+    {
+      "id": 13,
+      "query": "急性胸痛应该怎么处理？",
+      "category": "emergency",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，急性胸痛急诊评估应优先排除以下致命性病因：1. 急性冠脉综合征（ACS）：通过心电图ST改变和肌钙蛋白升高判断；2. 主动脉夹层：依据撕裂样胸痛、双上肢血压差>20mmHg及CTA检查；3. 肺栓塞：结合胸痛、呼吸困难、D-二"
+    },
+    {
+      "id": 14,
+      "query": "糖尿病有什么并发症？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，糖尿病的并发症包括：急性并发症（酮症酸中毒、高渗昏迷）和慢性并发症（视网膜病变、肾病、神经病变、心血管疾病）。"
+    },
+    {
+      "id": 15,
+      "query": "慢性胃炎会发展成胃癌吗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.6,
+      "answer_preview": "根据参考知识，慢性胃炎中，萎缩性胃炎伴肠化生或异型增生与胃癌风险相关，此类患者需定期内镜随访。"
+    },
+    {
+      "id": 16,
+      "query": "胃食管反流有什么症状？怎么诊断和治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，胃食管反流病的症状包括：典型症状为烧心（胸骨后灼热感）和反酸（口中有酸味液体）；非典型症状有慢性咳嗽、咽喉异物感、声音嘶哑、胸痛（需与心源性胸痛鉴别）。\n\n诊断方法：典型症状结合质子泵抑制剂（PPI）试验有效可初步诊断；金标准"
+    },
+    {
+      "id": 17,
+      "query": "抑郁症的核心症状是什么？怎么治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，抑郁症的核心症状包括：持续≥2周的情绪低落、兴趣丧失、精力减退。治疗方面，一线治疗为SSRI类药物（如舍曲林、艾司西酞普兰）联合认知行为治疗（CBT）；重症可考虑改良电休克治疗（MECT）。此外，自杀风险评估是诊疗必须步骤。"
+    },
+    {
+      "id": 18,
+      "query": "过敏性鼻炎的治疗方法有哪些？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，过敏性鼻炎的治疗方法包括阶梯式方案：1）避免过敏原；2）口服或鼻用抗组胺药；3）鼻用糖皮质激素（一线治疗）；4）白三烯受体拮抗剂；5）免疫治疗（脱敏）。"
+    },
+    {
+      "id": 19,
+      "query": "支气管哮喘的典型症状和诊断标准是什么？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，支气管哮喘的典型症状包括：发作性喘息、胸闷、咳嗽、呼吸困难，且症状在夜间及凌晨加重。诊断标准为：结合症状与肺功能检查，具体指标为支气管舒张试验中FEV1增加≥12%且绝对值增加≥200mL，或PEF变异率>10%。"
+    },
+    {
+      "id": 20,
+      "query": "骨关节炎怎么分级治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，骨关节炎的分级治疗阶梯如下：\n\n1. 基础治疗：患者教育、运动锻炼、减重。\n2. 非药物治疗：物理治疗、使用支具。\n3. 药物治疗：口服非甾体抗炎药（NSAIDs）或对乙酰氨基酚。\n4. 关节腔注射：注射糖皮质激素或玻璃酸钠。"
+    },
+    {
+      "id": 21,
+      "query": "缺铁性贫血怎么诊断和治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，缺铁性贫血的诊断标准为：血清铁蛋白<30μg/L。治疗方式为口服铁剂，疗程4-6个月。"
+    },
+    {
+      "id": 22,
+      "query": "慢性乙型肝炎什么时候需要抗病毒治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，慢性乙型肝炎需要抗病毒治疗时，应同时满足以下指征：ALT持续升高、HBV DNA升高（如>2000 IU/mL），以及存在显著肝纤维化或炎症坏死（≥G2/S2）。"
+    },
+    {
+      "id": 23,
+      "query": "肾结石的治疗方案怎么选择？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，肾结石的治疗方案选择如下：\n\n- **小于5mm的结石**：采取保守排石治疗，包括大量饮水和使用α阻断剂。\n- **5-10mm的结石**：可采用体外冲击波碎石（ESWL）。\n- **大于10mm或复杂结石**：可行输尿管镜或"
+    },
+    {
+      "id": 24,
+      "query": "脑卒中的FAST识别法是什么？缺血性卒中怎么急救？",
+      "category": "emergency",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，脑卒中的FAST识别法包括：Face（面部不对称）、Arms（单侧肢体无力）、Speech（语言障碍）、Time（时间就是大脑，立即拨打120）。缺血性卒中的急救措施为：发病<4.5小时可静脉溶栓（rt-PA），大血管闭塞<6"
+    },
+    {
+      "id": 25,
+      "query": "肠易激综合征怎么诊断和分型？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据提供的参考知识，肠易激综合征（IBS）的诊断采用罗马IV标准：腹痛每周至少发生1次，且持续至少3个月，并伴有以下2项或以上特征：①腹痛与排便相关；②排便频率改变；③粪便性状（外观）改变。\n\n分型依据主要排便习惯的异常，分为四型：腹泻型（"
+    },
+    {
+      "id": 26,
+      "query": "良性位置性眩晕有什么特征？怎么治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "良性阵发性位置性眩晕的特征是：头位改变（如翻身、起床、抬头）诱发短暂（<1分钟）旋转性眩晕，伴恶心呕吐，无耳鸣或听力下降，病程自限（数天至数周）。治疗采用耳石复位（Epley手法），一次复位成功率约80%。"
+    },
+    {
+      "id": 27,
+      "query": "细菌性、病毒性和过敏性结膜炎怎么区分？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 1.0,
+      "answer_preview": "根据参考知识，三种结膜炎的区分如下：\n\n- **细菌性结膜炎**：特征为**脓性分泌物**，双眼常先后发病，晨起眼睑粘连。治疗用抗生素眼药水（如左氧氟沙星）。\n- **病毒性结膜炎**（最常见）：特征为**水样分泌物**，伴**耳前淋巴结肿"
+    },
+    {
+      "id": 28,
+      "query": "急性腰背痛什么时候需要紧急就医？",
+      "category": "emergency",
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8,
+      "context_relevance": 1.0,
+      "answer_preview": "急性腰背痛出现以下“红旗征”时需紧急就医：大小便障碍或鞍区麻木（提示马尾综合征）、伴发热（提示感染）、不明原因体重下降（提示肿瘤）、夜间痛加重且卧床不缓解、骨质疏松患者伴轻微外伤。"
+    },
+    {
+      "id": 29,
+      "query": "甲减有什么症状？亚临床甲减要不要治疗？",
+      "category": "well_covered",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.8,
+      "answer_preview": "根据参考知识，甲减的症状包括：乏力、畏寒、体重增加、便秘、皮肤干燥、记忆力减退、抑郁、月经紊乱。\n\n亚临床甲减是否需要治疗：当TSH>10，或伴有症状、妊娠、甲状腺肿大时，需要治疗。"
+    },
+    {
+      "id": 30,
+      "query": "焦虑和抑郁症状很像，怎么区分它们的主要特征？",
+      "category": "multi_context",
+      "faithfulness": 1.0,
+      "answer_relevance": 1.0,
+      "context_relevance": 0.6,
+      "answer_preview": "根据参考知识，焦虑和抑郁的主要区分特征如下：\n\n- **核心症状不同**：抑郁障碍的核心症状是**持续≥2周的情绪低落、兴趣丧失、精力减退**；广泛性焦虑障碍（GAD）的核心特征是**持续≥6个月的过度担忧，涉及多个生活领域**。\n- **"
+    }
+  ]
+}

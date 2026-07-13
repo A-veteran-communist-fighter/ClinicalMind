@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "total_results": 1,
+    "overall_pass_rate": 1.0,
+    "overall_average_score": 0.9279999999999999,
+    "by_eval": {
+      "rag": {
+        "count": 1,
+        "pass_rate": 1.0,
+        "average_score": 0.9279999999999999,
+        "metrics": {
+          "MRR": 1.0,
+          "Precision@5": 0.4,
+          "Recall@5": 1.0,
+          "citation_hit_rate": 1.0,
+          "evidence_support_rate": 1.0,
+          "hallucinated_citation_rate": 0.0,
+          "nDCG@5": 1.0,
+          "trusted_source_ratio": 1.0
+        },
+        "error_count": 0,
+        "warning_count": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "eval_name": "rag",
+      "case_id": "rag_001",
+      "score": 0.9279999999999999,
+      "passed": true,
+      "metrics": {
+        "Recall@5": 1.0,
+        "Precision@5": 0.4,
+        "MRR": 1.0,
+        "nDCG@5": 1.0,
+        "trusted_source_ratio": 1.0,
+        "evidence_support_rate": 1.0,
+        "citation_hit_rate": 1.0,
+        "hallucinated_citation_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "stage_metrics": {
+          "coarse": {
+            "Recall@5": 0.5,
+            "Precision@5": 0.2,
+            "MRR": 0.5,
+            "nDCG@5": 0.38685280723454163,
+            "trusted_source_ratio": 0.5,
+            "evidence_support_rate": 1.0
+          },
+          "vector": {
+            "Recall@5": 1.0,
+            "Precision@5": 0.4,
+            "MRR": 1.0,
+            "nDCG@5": 1.0,
+            "trusted_source_ratio": 1.0,
+            "evidence_support_rate": 1.0
+          },
+          "cross_encoder": {
+            "Recall@5": 1.0,
+            "Precision@5": 0.4,
+            "MRR": 1.0,
+            "nDCG@5": 1.0,
+            "trusted_source_ratio": 1.0,
+            "evidence_support_rate": 1.0
+          },
+          "final": {
+            "Recall@5": 1.0,
+            "Precision@5": 0.4,
+            "MRR": 1.0,
+            "nDCG@5": 1.0,
+            "trusted_source_ratio": 1.0,
+            "evidence_support_rate": 1.0
+          }
+        }
+      }
+    }
+  ]
+}

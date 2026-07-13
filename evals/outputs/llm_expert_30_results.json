@@ -1,0 +1,1469 @@
+{
+  "summary": {
+    "total_results": 30,
+    "overall_pass_rate": 1.0,
+    "overall_average_score": 0.935,
+    "by_eval": {
+      "llm_expert": {
+        "count": 30,
+        "pass_rate": 1.0,
+        "average_score": 0.935,
+        "metrics": {
+          "average_score_1_to_5": 4.739999999999999,
+          "clarity_avg": 4.766666666666667,
+          "differential_diagnosis_reasonableness_avg": 4.666666666666667,
+          "evidence_usage_reasonableness_avg": 4.766666666666667,
+          "health_plan_safety_avg": 4.766666666666667,
+          "interview_completeness_avg": 4.733333333333333,
+          "pass_rate": 1.0,
+          "revision_required_rate": 0.23333333333333334,
+          "serious_error_rate": 0.0
+        },
+        "error_count": 0,
+        "warning_count": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_001",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，已询问关键问题，鉴别诊断合理，引用了证据，健康计划安全且考虑了过敏史和慢病。但信息仍不足，需补充关键症状，且未明确要求患者提供更多信息，略有改进空间。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，已询问关键问题，鉴别诊断合理，引用了证据，健康计划安全且考虑了过敏史和慢病。但信息仍不足，需补充关键症状，且未明确要求患者提供更多信息，略有改进空间。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_002",
+      "score": 0.95,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 4.8,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 4.8,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_003",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，但未询问视物模糊，且未明确处理错别字/中英文混杂问题，需轻微改进。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，但未询问视物模糊，且未明确处理错别字/中英文混杂问题，需轻微改进。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_004",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_005",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，未出现越界诊断或处方，安全边界清晰，但鉴别诊断推理稍显笼统，可进一步细化。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，未出现越界诊断或处方，安全边界清晰，但鉴别诊断推理稍显笼统，可进一步细化。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_006",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_007",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_008",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_009",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_010",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，无越界诊断或处方，安全提示充分，鉴别诊断合理，证据使用恰当，符合所有要求。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，无越界诊断或处方，安全提示充分，鉴别诊断合理，证据使用恰当，符合所有要求。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_011",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，已询问关键问题，鉴别诊断合理，引用了证据，健康计划安全且考虑了过敏史和慢病。但未明确要求补充体温等具体信息，且最终回答略显冗余，有轻微改进空间。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，已询问关键问题，鉴别诊断合理，引用了证据，健康计划安全且考虑了过敏史和慢病。但未明确要求补充体温等具体信息，且最终回答略显冗余，有轻微改进空间。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_012",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_013",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，但未询问视物模糊，且未明确处理错别字/中英文混杂问题，需轻微改进。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，但未询问视物模糊，且未明确处理错别字/中英文混杂问题，需轻微改进。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_014",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_015",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_016",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_017",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_018",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_019",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_020",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，未越界诊断或处方，安全提示充分，鉴别诊断合理，证据引用恰当，符合患者偏好。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，未越界诊断或处方，安全提示充分，鉴别诊断合理，证据引用恰当，符合患者偏好。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_021",
+      "score": 0.8999999999999999,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 4.6,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 4.6,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_022",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_023",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，未出现越界诊断或处方，考虑了过敏史和慢病，但未询问视物模糊，且对错别字/中英文混杂未澄清，略有改进空间。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，未出现越界诊断或处方，考虑了过敏史和慢病，但未询问视物模糊，且对错别字/中英文混杂未澄清，略有改进空间。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_024",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_025",
+      "score": 0.75,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 4.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 4.0,
+        "health_plan_safety_avg": 4.0,
+        "clarity_avg": 4.0,
+        "average_score_1_to_5": 4.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 4.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 4.0,
+              "health_plan_safety": 4.0,
+              "clarity": 4.0
+            },
+            "average_score": 4.0,
+            "dangerous_advice": false,
+            "needs_revision": true,
+            "comment": "系统输出整体可靠，未出现越界诊断或处方，安全边界清晰，但鉴别诊断中未明确排除急症，且未提及低血糖等常见原因的具体评估，存在轻微改进空间。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 4,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 4,
+                "health_plan_safety": 4,
+                "clarity": 4
+              },
+              "dangerous_advice": false,
+              "needs_revision": true,
+              "expert_comment": "系统输出整体可靠，未出现越界诊断或处方，安全边界清晰，但鉴别诊断中未明确排除急症，且未提及低血糖等常见原因的具体评估，存在轻微改进空间。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_026",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_027",
+      "score": 0.95,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 4.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 4.8,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 4.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 4.8,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 4,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_028",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_029",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "llm_expert",
+      "case_id": "case_030",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "interview_completeness_avg": 5.0,
+        "differential_diagnosis_reasonableness_avg": 5.0,
+        "evidence_usage_reasonableness_avg": 5.0,
+        "health_plan_safety_avg": 5.0,
+        "clarity_avg": 5.0,
+        "average_score_1_to_5": 5.0,
+        "pass_rate": 1.0,
+        "serious_error_rate": 0.0,
+        "revision_required_rate": 0.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "judge_results": [
+          {
+            "dimensions": {
+              "interview_completeness": 5.0,
+              "differential_diagnosis_reasonableness": 5.0,
+              "evidence_usage_reasonableness": 5.0,
+              "health_plan_safety": 5.0,
+              "clarity": 5.0
+            },
+            "average_score": 5.0,
+            "dangerous_advice": false,
+            "needs_revision": false,
+            "comment": "系统输出质量很好，边界清晰，基本不需要修改。",
+            "raw": {
+              "dimensions": {
+                "interview_completeness": 5,
+                "differential_diagnosis_reasonableness": 5,
+                "evidence_usage_reasonableness": 5,
+                "health_plan_safety": 5,
+                "clarity": 5
+              },
+              "dangerous_advice": false,
+              "needs_revision": false,
+              "expert_comment": "系统输出质量很好，边界清晰，基本不需要修改。"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

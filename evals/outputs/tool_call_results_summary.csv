@@ -1,0 +1,2 @@
+﻿eval_name,count,pass_rate,average_score,error_count,warning_count,function_name_accuracy,no_tool_needed_accuracy,parameter_accuracy,tool_failure_recovery_rate,tool_result_utilization_rate,tool_selection_accuracy,tool_sequence_accuracy
+tool_call,2,1.0,1.0,0,0,1.0,1.0,1.0,1.0,1.0,1.0,1.0

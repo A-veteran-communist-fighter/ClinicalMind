@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""ClinicalMind Console — powered by LangGraph.
+"""ClinicalMind Console — LangGraph Edition (state-driven, no interrupt()).
 
-Interactive medical consultation using LangGraph's interrupt() for human-in-the-loop.
+Compatible with LangGraph >= 1.x.
 
 Usage:
     python -m clinicalmind_lg.console
 """
 
+import asyncio
 import json
 import sys
 import uuid
 from typing import Any
-
-from langgraph.types import Command
 
 from .graph import graph
 from .state import initial_state
@@ -58,8 +57,12 @@ def print_differential(diffs: list[dict]):
             print(f"         {d['reason'][:100]}")
 
 
-def ask_questions(questions: list[dict]) -> str | None:
-    """Present questions and collect answers. Returns '||'-separated answers or None to quit."""
+async def ask_questions(questions: list[dict]) -> str | None:
+    """Present questions and collect answers.
+
+    Returns '||'-separated answers, None to quit, or 'restart' to restart.
+    Supports 'lab <path>' command to parse lab reports mid-interview.
+    """
     answers = []
     for i, q in enumerate(questions):
         qtype = q.get("type", "text")
@@ -86,11 +89,35 @@ def ask_questions(questions: list[dict]) -> str | None:
             return None
         if raw.lower() == "restart":
             return "restart"
+        # Lab report mid-interview
+        if raw.lower().startswith("lab "):
+            image_path = raw[4:].strip().strip('"').strip("'")
+            print(f"  Parsing lab report: {image_path}")
+            try:
+                from .nodes import parse_lab_report_image
+                parsed = await parse_lab_report_image(image_path)
+                if "error" in parsed:
+                    print(f"  Error: {parsed['error']}")
+                else:
+                    inds = parsed.get("indicators", [])
+                    if not inds:
+                        print("  No abnormal indicators detected.")
+                    else:
+                        print(f"  Found {len(inds)} indicators, "
+                              f"{sum(1 for x in inds if x.get('abnormal'))} abnormal.")
+                    return f"LAB_PARSED:{json.dumps(parsed)}"
+            except Exception as e:
+                print(f"  Error: {e}")
+            # Re-ask this question
+            print(f"  (Please answer the question above)")
+            try:
+                raw = input(prompt).strip()
+            except (EOFError, KeyboardInterrupt):
+                return None
         if raw.lower() in ("skip", ""):
             answers.append("跳过")
             continue
 
-        # Map numeric choices to option text
         if qtype in ("choice", "multi_choice") and opts and raw.replace(",", "").replace(" ", "").isdigit():
             try:
                 indices = [int(x.strip()) - 1 for x in raw.split(",")]
@@ -192,76 +219,72 @@ def print_research(answer: str):
 # ── Graph runner ────────────────────────────────────────────────────────────
 
 async def run_consultation(chief_complaint: str) -> dict[str, Any] | None:
-    """Run consultation using LangGraph with human-in-the-loop interrupts.
+    """Run consultation using state-driven pauses (no interrupt()).
+
+    Compatible with LangGraph >= 1.x.
 
     Pattern:
-    1. graph.ainvoke() runs until interrupt() is hit → returns normally
-    2. Check graph.get_state(config).interrupts for interrupt data
-    3. Present questions, collect answers
-    4. Resume with graph.ainvoke(Command(resume=answer), config)
-    5. Repeat until graph completes (next=(), no interrupts)
+    1. graph.ainvoke(initial_state) → runs entry → interview_generate → END
+    2. Read phase from result: if "awaiting_human", show questions
+    3. Collect answers, put in human_response, run graph again
+    4. Graph runs entry → interview_process → route → generate again or diagnose
+    5. Repeat until phase is not "awaiting_human"
     """
     state = dict(initial_state(chief_complaint))
     config = {"configurable": {"thread_id": str(uuid.uuid4())}}
 
-    while True:
+    MAX_ROUNDS = 15
+    for _ in range(MAX_ROUNDS):
         result = await graph.ainvoke(state, config)
-        gs = graph.get_state(config)
 
-        if gs is None:
+        phase = result.get("phase", "completed")
+        route = result.get("route", "diagnosis")
+
+        # Non-diagnosis paths complete in one shot
+        if route in ("research", "planning"):
             return result
 
-        next_nodes = gs.next or ()
-        interrupts = gs.interrupts or ()
-
-        # Check if graph is done
-        if not next_nodes and not interrupts:
+        # Emergency goes straight to diagnose
+        if phase == "diagnosed" or phase == "completed":
             return result
 
-        # Handle interrupts
-        if interrupts:
-            for it in interrupts:
-                iv = it.value if hasattr(it, "value") else it
+        # Awaiting human input: show questions, collect answers
+        if phase == "awaiting_human":
+            questions = result.get("current_questions", [])
+            diffs = result.get("differential_diagnoses", [])
+            round_num = result.get("interview_round", "?")
+            collected_info = result.get("collected_info", {})
 
-                if isinstance(iv, dict) and iv.get("type") == "ask_questions":
-                    questions = iv.get("questions", [])
-                    diffs = iv.get("differential_diagnoses", [])
-                    round_num = iv.get("round", "?")
-                    collected = iv.get("collected_count", 0)
+            meaningful = sum(1 for v in collected_info.values() if v and v not in ("无", "没有", "跳过"))
+            print(f"\n  [Round {round_num}] ({meaningful} items collected)")
+            print_differential(diffs)
+            print_red_flags(result.get("red_flags", []))
 
-                    print(f"\n  [Round {round_num}] ({collected} items collected)")
-                    print_differential(diffs)
+            if not questions:
+                # No questions generated — retry with empty answer to force next iteration
+                state = {"human_response": "跳过"}
+                continue
 
-                    # Check for red flags in the interrupt
-                    flags = iv.get("red_flags", [])
-                    print_red_flags(flags)
+            response = await ask_questions(questions)
+            if response is None:
+                return None
+            if response == "restart":
+                return {"_restart": True}
 
-                    response = ask_questions(questions)
-                    if response is None:
-                        return None
-                    if response == "restart":
-                        return {"_restart": True}
+            # Resume: feed answer back into state, graph picks up at interview_process
+            state = {"human_response": response}
+            continue
 
-                    state = Command(resume=response)
+        # Diagnosing or diagnosed: graph finished the diagnosis path
+        if phase in ("diagnosing",):
+            # The diagnose node should follow next; run once more with empty update
+            state = {}
+            continue
 
-                else:
-                    # Unknown interrupt — show it
-                    print(f"\n[Debug] Interrupt: {str(iv)[:200]}")
-                    raw = input("  > ").strip()
-                    if raw.lower() in ("quit", "exit", "q"):
-                        return None
-                    state = Command(resume=raw)
-        else:
-            # No interrupt but next_nodes not empty?
-            # This is a state where the graph expects input but hasn't interrupted
-            if next_nodes:
-                print(f"\n[Waiting at: {next_nodes}]")
-                raw = input("  > ").strip()
-                if raw.lower() in ("quit", "exit", "q"):
-                    return None
-                state = Command(resume=raw)
-            else:
-                return result
+        # Fallback: graph ended unexpectedly
+        return result
+
+    return result
 
 
 # ── Main loop ───────────────────────────────────────────────────────────────
@@ -269,25 +292,88 @@ async def run_consultation(chief_complaint: str) -> dict[str, Any] | None:
 async def main():
     print_banner()
 
-    # Quick LLM connectivity check — fail early with a clear message
+    # LLM connectivity check
     try:
-        from .llm import llm
-        llm._get()  # force lazy init
+        from .llm import get_llm, has_vision
+        get_llm()
     except RuntimeError as e:
         print(f"\n  ERROR: {e}")
         print("\n  Please edit .env and try again.")
         return
 
+    if has_vision():
+        print("  Vision model configured — lab report parsing enabled.")
+    else:
+        print("  Tip: Set VISION_API_KEY in .env to enable lab report parsing.")
+
+    # Active consultation state (for lab command during interview)
+    _active_config: dict = {}
+    _active_state: dict = {}
+
     while True:
         try:
             print("-" * 60)
-            print("Enter chief complaint / medical question:")
+            print("Enter chief complaint / medical question (or 'lab <path>' to parse a lab report):")
             user_input = input("> ").strip()
 
             if not user_input:
                 continue
             if user_input.lower() in ("quit", "exit", "q"):
                 print("\nGoodbye!")
+                break
+
+            # ── Lab report upload command ──
+            if user_input.lower().startswith("lab "):
+                image_path = user_input[4:].strip().strip('"').strip("'")
+                print(f"\n  Parsing lab report: {image_path}")
+                try:
+                    from .nodes import parse_lab_report_image
+                    parsed = await parse_lab_report_image(image_path)
+                except Exception as e:
+                    print(f"\n  Error: {e}")
+                    continue
+
+                if "error" in parsed:
+                    print(f"\n  Error: {parsed['error']}")
+                    continue
+
+                indicators = parsed.get("indicators", [])
+                if not indicators:
+                    print("\n  No abnormal indicators detected in this report.")
+                else:
+                    print(f"\n  Parsed {parsed['parsed_count']} indicators, "
+                          f"{parsed['abnormal_count']} abnormal:")
+                    for ind in indicators:
+                        if ind.get("abnormal"):
+                            lvl = ind.get("abnormal_level", "unknown")
+                            lvl_mark = {"critical": "!!", "severe": "!", "moderate": "⚠"}.get(lvl, "")
+                            print(f"    {lvl_mark} {ind.get('indicator_name','?'):12s} "
+                                  f"{str(ind.get('value','?')):8s} {ind.get('unit',''):6s} "
+                                  f"(参考: {ind.get('reference_range','N/A')})")
+
+                # If in active consultation, feed into graph state
+                if _active_config and _active_state is not None:
+                    from .graph import graph
+                    _active_state = {"lab_reports": [parsed]}
+                    result = await graph.ainvoke(_active_state, _active_config)
+                    # Re-generate questions to incorporate lab data
+                    result = await graph.ainvoke({}, _active_config)
+                    _active_state = {}
+                    phase = result.get("phase", "")
+                    if phase == "awaiting_human":
+                        questions = result.get("current_questions", [])
+                        if questions:
+                            print(f"\n  (Lab data incorporated. Continuing interview...)")
+                            print_differential(result.get("differential_diagnoses", []))
+                            response = await ask_questions(questions)
+                            if response in (None, "restart"):
+                                break
+                            _active_state = {"human_response": response}
+                            continue
+                else:
+                    print("\n  Tip: Start a consultation first, then use 'lab' during")
+                    print("  the interview to incorporate lab results into diagnosis.")
+                continue
                 break
 
             print("\nProcessing...")

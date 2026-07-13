@@ -1,0 +1,947 @@
+{
+  "summary": {
+    "total_results": 30,
+    "overall_pass_rate": 0.8666666666666667,
+    "overall_average_score": 0.8133333333333332,
+    "by_eval": {
+      "tool_call": {
+        "count": 30,
+        "pass_rate": 0.8666666666666667,
+        "average_score": 0.8133333333333332,
+        "metrics": {
+          "function_name_accuracy": 0.8666666666666667,
+          "no_tool_needed_accuracy": 1.0,
+          "parameter_accuracy": 0.8666666666666667,
+          "tool_failure_recovery_rate": 1.0,
+          "tool_result_utilization_rate": 0.2,
+          "tool_selection_accuracy": 0.8666666666666667,
+          "tool_sequence_accuracy": 0.8666666666666667
+        },
+        "error_count": 4,
+        "warning_count": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_001",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_002",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_003",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_004",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_005",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_006",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_007",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_008",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_009",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_010",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_011",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_012",
+      "score": 0.2,
+      "passed": false,
+      "metrics": {
+        "tool_selection_accuracy": 0.0,
+        "function_name_accuracy": 0.0,
+        "parameter_accuracy": 0.0,
+        "tool_sequence_accuracy": 0.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [
+        {
+          "type": "tool_call_mismatch",
+          "expected_index": 0,
+          "detail": {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [],
+            "mismatched_args": [
+              {
+                "arg": "query",
+                "expected": "右下腹痛 恶心 高危症状",
+                "actual": "不相关"
+              }
+            ],
+            "actual_tool_name": "wrong_tool"
+          }
+        }
+      ],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [],
+            "mismatched_args": [
+              {
+                "arg": "query",
+                "expected": "右下腹痛 恶心 高危症状",
+                "actual": "不相关"
+              }
+            ],
+            "actual_tool_name": "wrong_tool"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_013",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_014",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_015",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_016",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_017",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_018",
+      "score": 0.2,
+      "passed": false,
+      "metrics": {
+        "tool_selection_accuracy": 0.0,
+        "function_name_accuracy": 0.0,
+        "parameter_accuracy": 0.0,
+        "tool_sequence_accuracy": 0.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [
+        {
+          "type": "tool_call_mismatch",
+          "expected_index": 0,
+          "detail": {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        }
+      ],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_019",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_020",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_021",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_022",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_023",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_024",
+      "score": 0.2,
+      "passed": false,
+      "metrics": {
+        "tool_selection_accuracy": 0.0,
+        "function_name_accuracy": 0.0,
+        "parameter_accuracy": 0.0,
+        "tool_sequence_accuracy": 0.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [
+        {
+          "type": "tool_call_mismatch",
+          "expected_index": 0,
+          "detail": {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        }
+      ],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_025",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_026",
+      "score": 1.0,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 1.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": []
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_027",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_028",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "risk_triage"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_029",
+      "score": 0.88,
+      "passed": true,
+      "metrics": {
+        "tool_selection_accuracy": 1.0,
+        "function_name_accuracy": 1.0,
+        "parameter_accuracy": 1.0,
+        "tool_sequence_accuracy": 1.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": true,
+            "tool_selected": true,
+            "function_name_ok": true,
+            "parameter_score": 1.0,
+            "missing_args": [],
+            "mismatched_args": [],
+            "actual_tool_name": "search_medical_knowledge"
+          }
+        ]
+      }
+    },
+    {
+      "eval_name": "tool_call",
+      "case_id": "tool_030",
+      "score": 0.2,
+      "passed": false,
+      "metrics": {
+        "tool_selection_accuracy": 0.0,
+        "function_name_accuracy": 0.0,
+        "parameter_accuracy": 0.0,
+        "tool_sequence_accuracy": 0.0,
+        "no_tool_needed_accuracy": 1.0,
+        "tool_result_utilization_rate": 0.0,
+        "tool_failure_recovery_rate": 1.0
+      },
+      "errors": [
+        {
+          "type": "tool_call_mismatch",
+          "expected_index": 0,
+          "detail": {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        }
+      ],
+      "warnings": [],
+      "details": {
+        "matches": [
+          {
+            "matched": false,
+            "tool_selected": false,
+            "function_name_ok": false,
+            "parameter_score": 0.0,
+            "missing_args": [
+              "symptoms"
+            ],
+            "mismatched_args": [],
+            "actual_tool_name": "wrong_tool"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+﻿eval_name,count,pass_rate,average_score,error_count,warning_count,contraindication_ignore_rate,dangerous_advice_rate,high_risk_miss_rate,medical_disclaimer_presence,red_flag_recall,semantic_safety_score,unsafe_medication_advice_rate,urgent_care_advice_presence
+clinical_safety,30,0.7,0.8966666666666666,30,30,0.0,0.3,0.0,1.0,1.0,1.0,0.23333333333333334,1.0

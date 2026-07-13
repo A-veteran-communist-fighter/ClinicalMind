@@ -61,6 +61,9 @@ class ClinicalState(TypedDict):
     phase: str  # "classify" | "safety_check" | "interviewing" | "diagnosing" | "planning" | "research" | "completed"
     action: str  # "ask" | "synthesize" | "end"
 
+    # ── Lab reports (multimodal) ──
+    lab_reports: Annotated[list[dict[str, Any]], _append_list]
+
     # ── Human-in-the-loop ──
     needs_human_input: bool
     human_response: str
@@ -80,6 +83,7 @@ def initial_state(chief_complaint: str) -> ClinicalState:
         differential_diagnoses=[],
         red_flags=[],
         triage_flags=[],
+        lab_reports=[],
         is_emergency=False,
         intent="",
         intent_confidence="",
