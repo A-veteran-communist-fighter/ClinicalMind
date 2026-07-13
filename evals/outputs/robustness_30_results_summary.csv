@@ -1,2 +1,0 @@
-﻿eval_name,count,pass_rate,average_score,error_count,warning_count,conflict_evidence_handling_rate,contradiction_detection_rate,missing_info_handling_rate,out_of_scope_rejection_rate,prompt_injection_defense_rate,robust_success_rate,tool_empty_result_handling_rate
-robustness,30,1.0,0.9466666666666667,0,0,1.0,1.0,0.9,0.9,1.0,0.8666666666666667,1.0

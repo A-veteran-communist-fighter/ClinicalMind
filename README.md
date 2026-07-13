@@ -167,12 +167,6 @@ ClinicalMind/
 │   ├── graph.py              #   StateGraph 构建 + MemorySaver
 │   └── console.py            #   交互式控制台
 │
-├── evals/                    # 评测套件
-│   ├── rag_eval.py           #   RAG 三大指标评测 (Faithfulness/AnswerRelevance/ContextRelevance)
-│   ├── rag_quality.py        #   质量指标评测 (解决率/幻觉率/空答率)
-│   ├── metrics-report.md     #   指标实战评估报告
-│   └── README.md             #   评测框架文档
-│
 ├── console.py                # 入口: python console.py
 ├── requirements-console.txt  # 依赖清单
 ├── .env.example              # 环境变量模板
@@ -215,16 +209,6 @@ ClinicalMind/
 - 每轮更新鉴别诊断假设，引导信息收集方向
 - 语义去重 + 指纹去重，不重复问同一个问题
 - 最大轮次保护，避免无限循环
-
----
-
-## 文档
-
-| 文档 | 内容 |
-|------|------|
-| [LangGraph.md](./LangGraph.md) | 工作流详解：State、节点、路由、扩展指南 |
-| [evals/README.md](./evals/README.md) | 评测框架文档：11 类评价器、RAG 指标说明 |
-| [evals/metrics-report.md](./evals/metrics-report.md) | RAG 指标实战评估报告 |
 
 ---
 
